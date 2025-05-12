@@ -130,11 +130,11 @@ export default function EditPlanPage() {
 
   if (error || !plan) {
     return (
-      <div className="container mx-auto px-4 py-8">
-        <div className="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-6">
+      <div className="container mx-auto px-4 py-8 bg-white border-2 border-black min-h-screen rounded-2xl">
+        <div className="bg-red-100 border-2 border-red-500 text-red-700 p-4 mb-6 rounded-lg shadow-brutal">
           <p>{error || 'Plan not found'}</p>
         </div>
-        <Link href="/plans" className="flex items-center text-blue-600 hover:underline">
+        <Link href="/plans" className="flex items-center px-4 py-2 border-2 border-black rounded-lg bg-white font-bold shadow-brutal hover:bg-yellow-100 transition-colors">
           <FiArrowLeft className="mr-1" />
           Back to Plans
         </Link>
@@ -143,11 +143,11 @@ export default function EditPlanPage() {
   }
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="container mx-auto px-4 py-8 bg-white border-2 border-black min-h-screen rounded-2xl">
       <div className="flex justify-between items-center mb-6">
         <Link
           href={`/plans/${planId}`}
-          className="flex items-center text-gray-600 hover:text-black transition-colors"
+          className="flex items-center px-4 py-2 border-2 border-black rounded-lg bg-white font-bold shadow-brutal hover:bg-yellow-100 transition-colors"
         >
           <FiArrowLeft className="mr-1" />
           Back to Plan
@@ -156,7 +156,7 @@ export default function EditPlanPage() {
           type="submit"
           form="edit-plan-form"
           disabled={isSaving}
-          className="flex items-center px-4 py-2 bg-black text-white rounded-md font-medium hover:bg-gray-800 transition-colors disabled:opacity-50"
+          className="flex items-center px-4 py-2 border-2 border-black rounded-lg bg-yellow-300 font-bold shadow-brutal hover:bg-yellow-400 transition-colors disabled:opacity-50"
         >
           <FiSave className="mr-1" />
           {isSaving ? 'Saving...' : 'Save Changes'}
@@ -164,8 +164,8 @@ export default function EditPlanPage() {
       </div>
 
       <form id="edit-plan-form" onSubmit={handleSubmit} className="space-y-8">
-        <div className="bg-white border-2 border-black rounded-lg p-6">
-          <h1 className="text-2xl font-bold mb-4">Edit Plan</h1>
+        <div className="bg-white border-2 border-black rounded-2xl p-6 shadow-brutal">
+          <h1 className="text-2xl font-bold mb-4 text-black">Edit Plan</h1>
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
             <div>
@@ -177,7 +177,7 @@ export default function EditPlanPage() {
                 id="title"
                 value={plan.title}
                 onChange={(e) => setPlan({ ...plan, title: e.target.value })}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black"
+                className="w-full px-3 py-2 border-2 border-black rounded-2xl focus:outline-none focus:ring-2 focus:ring-yellow-300"
                 required
               />
             </div>
@@ -191,7 +191,7 @@ export default function EditPlanPage() {
                 id="description"
                 value={plan.description}
                 onChange={(e) => setPlan({ ...plan, description: e.target.value })}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black"
+                className="w-full px-3 py-2 border-2 border-black rounded-2xl focus:outline-none focus:ring-2 focus:ring-yellow-300"
               />
             </div>
             
@@ -203,7 +203,7 @@ export default function EditPlanPage() {
                 id="duration"
                 value={plan.duration}
                 onChange={(e) => setPlan({ ...plan, duration: e.target.value })}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black"
+                className="w-full px-3 py-2 border-2 border-black rounded-2xl focus:outline-none focus:ring-2 focus:ring-yellow-300"
               >
                 <option value="1 week">1 Week</option>
                 <option value="2 weeks">2 Weeks</option>
@@ -221,7 +221,7 @@ export default function EditPlanPage() {
                 id="difficulty"
                 value={plan.difficulty}
                 onChange={(e) => setPlan({ ...plan, difficulty: e.target.value })}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black"
+                className="w-full px-3 py-2 border-2 border-black rounded-2xl focus:outline-none focus:ring-2 focus:ring-yellow-300"
               >
                 <option value="Beginner">Beginner</option>
                 <option value="Intermediate">Intermediate</option>
@@ -231,8 +231,8 @@ export default function EditPlanPage() {
           </div>
         </div>
 
-        <div className="bg-white border-2 border-black rounded-lg p-6">
-          <h2 className="text-xl font-semibold mb-4">Scheduled Tasks</h2>
+        <div className="bg-white border-2 border-black rounded-2xl p-6 shadow-brutal">
+          <h2 className="text-xl font-bold mb-4 text-black">Scheduled Tasks</h2>
           
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
             <div>
@@ -245,7 +245,7 @@ export default function EditPlanPage() {
                 name="title"
                 value={taskForm.title}
                 onChange={handleTaskInputChange}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black"
+                className="w-full px-3 py-2 border-2 border-black rounded-2xl focus:outline-none focus:ring-2 focus:ring-yellow-300"
                 placeholder="e.g., Morning Run"
               />
             </div>
@@ -259,7 +259,7 @@ export default function EditPlanPage() {
                 name="type"
                 value={taskForm.type}
                 onChange={handleTaskInputChange}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black"
+                className="w-full px-3 py-2 border-2 border-black rounded-2xl focus:outline-none focus:ring-2 focus:ring-yellow-300"
               >
                 <option value={TaskType.EXERCISE}>Exercise</option>
                 <option value={TaskType.DIET}>Diet</option>
@@ -278,7 +278,7 @@ export default function EditPlanPage() {
                   name="time"
                   value={taskForm.time || ''}
                   onChange={handleTaskInputChange}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black"
+                  className="w-full px-3 py-2 border-2 border-black rounded-2xl focus:outline-none focus:ring-2 focus:ring-yellow-300"
                 />
                 <FiClock className="absolute right-3 top-2.5 text-gray-400" />
               </div>
@@ -293,7 +293,7 @@ export default function EditPlanPage() {
                 name="day"
                 value={taskForm.day}
                 onChange={handleTaskInputChange}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black"
+                className="w-full px-3 py-2 border-2 border-black rounded-2xl focus:outline-none focus:ring-2 focus:ring-yellow-300"
               >
                 {days.map((day) => (
                   <option key={day} value={day}>
@@ -308,7 +308,7 @@ export default function EditPlanPage() {
             type="button"
             onClick={handleAddTask}
             disabled={!taskForm.title.trim()}
-            className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors disabled:opacity-50"
+            className="flex items-center px-4 py-2 border-2 border-black rounded-lg bg-yellow-300 font-bold shadow-brutal hover:bg-yellow-400 transition-colors disabled:opacity-50"
           >
             <FiPlus className="mr-1" />
             Add Task
@@ -316,12 +316,12 @@ export default function EditPlanPage() {
           
           <div className="mt-6 space-y-6">
             {days.map((day) => (
-              <div key={day} className="border border-gray-200 rounded-lg p-4">
-                <h3 className="text-lg font-medium mb-3">{day}</h3>
+              <div key={day} className="border-2 border-black rounded-lg p-4 shadow-brutal bg-white">
+                <h3 className="text-lg font-bold mb-3 text-black">{day}</h3>
                 {plan.scheduledTasks[day]?.length ? (
                   <ul className="space-y-2">
                     {plan.scheduledTasks[day].map((task, index) => (
-                      <li key={index} className="flex items-center justify-between p-2 bg-gray-50 rounded">
+                      <li key={index} className="flex items-center justify-between p-2 bg-yellow-100 rounded shadow-brutal">
                         <div>
                           <p className="font-medium">{task.title}</p>
                           <p className="text-sm text-gray-500">{task.type}</p>
@@ -335,7 +335,7 @@ export default function EditPlanPage() {
                           <button
                             type="button"
                             onClick={() => removeTask(day, index)}
-                            className="text-red-500 hover:text-red-700"
+                            className="text-red-500 hover:text-red-700 font-bold"
                             aria-label="Remove task"
                           >
                             <FiTrash2 />

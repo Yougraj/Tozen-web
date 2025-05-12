@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { FiArrowLeft, FiEdit, FiTrash2, FiClock } from 'react-icons/fi';
 import Link from 'next/link';
+import DeleteConfirmModal from '@/components/DeleteConfirmModal';
 import { IPlan } from '@/models/Plan';
 
 export default function PlanDetailsPage() {
@@ -14,6 +15,8 @@ export default function PlanDetailsPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [isDeleting, setIsDeleting] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+
 
   useEffect(() => {
     const fetchPlan = async () => {
@@ -35,25 +38,29 @@ export default function PlanDetailsPage() {
     fetchPlan();
   }, [planId]);
 
-  const handleDelete = async () => {
-    if (!confirm('Are you sure you want to delete this plan?')) return;
-    
+  const handleDelete = () => {
+    setShowDeleteModal(true);
+  };
+
+  const confirmDelete = async () => {
+    setIsDeleting(true);
     try {
-      setIsDeleting(true);
       const response = await fetch(`/api/plans/${planId}`, {
         method: 'DELETE',
       });
-
       if (!response.ok) {
         throw new Error('Failed to delete plan');
       }
-
       router.push('/plans');
     } catch (err) {
       console.error('Error deleting plan:', err);
       setError('Failed to delete plan. Please try again.');
       setIsDeleting(false);
     }
+  };
+
+  const cancelDelete = () => {
+    setShowDeleteModal(false);
   };
 
   if (isLoading) {
@@ -66,13 +73,13 @@ export default function PlanDetailsPage() {
 
   if (error || !plan) {
     return (
-      <div className="container mx-auto px-4 py-8">
-        <div className="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-6">
+      <div className="container mx-auto px-4 py-8 bg-yellow-100 min-h-screen rounded-2xl">
+        <div className="bg-red-100 border-2 border-red-500 text-red-700 p-4 mb-6 rounded-lg shadow-brutal">
           <p>{error || 'Plan not found'}</p>
         </div>
         <button
           onClick={() => router.push('/plans')}
-          className="flex items-center text-blue-600 hover:underline"
+          className="flex items-center px-4 py-2 border-2 border-black rounded-lg bg-white font-bold shadow-brutal hover:bg-yellow-100 transition-colors"
         >
           <FiArrowLeft className="mr-1" />
           Back to Plans
@@ -84,11 +91,11 @@ export default function PlanDetailsPage() {
   const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="container mx-auto px-4 py-8 bg-white border-2 border-black rounded-2xl">
       <div className="flex justify-between items-start mb-6">
         <button
           onClick={() => router.push('/plans')}
-          className="flex items-center text-gray-600 hover:text-black transition-colors"
+          className="flex items-center px-4 py-2 border-2 border-black rounded-lg bg-white font-bold shadow-brutal hover:bg-yellow-100 transition-colors"
         >
           <FiArrowLeft className="mr-1" />
           Back to Plans
@@ -96,7 +103,7 @@ export default function PlanDetailsPage() {
         <div className="flex space-x-2">
           <Link
             href={`/plans/edit/${plan._id.toString()}`}
-            className="flex items-center px-3 py-1.5 border border-black rounded-md hover:bg-gray-100 transition-colors"
+            className="flex items-center px-4 py-2 border-2 border-black rounded-lg bg-yellow-300 font-bold shadow-brutal hover:bg-yellow-400 transition-colors"
           >
             <FiEdit className="mr-1" />
             Edit
@@ -104,26 +111,36 @@ export default function PlanDetailsPage() {
           <button
             onClick={handleDelete}
             disabled={isDeleting}
-            className="flex items-center px-3 py-1.5 border border-red-500 text-red-500 rounded-md hover:bg-red-50 transition-colors disabled:opacity-50"
+            className="flex items-center px-4 py-2 border-2 border-red-500 text-red-500 rounded-lg font-bold shadow-brutal hover:bg-red-100 transition-colors disabled:opacity-50"
           >
             <FiTrash2 className="mr-1" />
-            {isDeleting ? 'Deleting...' : 'Delete'}
+            Delete
           </button>
+          <DeleteConfirmModal
+            isOpen={showDeleteModal}
+            title="Delete Plan?"
+            message="Are you sure you want to delete this plan? This cannot be undone."
+            confirmLabel={isDeleting ? 'Deleting...' : 'Delete'}
+            cancelLabel="Cancel"
+            onConfirm={confirmDelete}
+            onCancel={cancelDelete}
+            loading={isDeleting}
+          />
         </div>
       </div>
 
-      <div className="bg-white border-2 border-black rounded-lg p-6 mb-8">
+      <div className="bg-white border-2 border-black rounded-2xl p-6 mb-8 shadow-brutal">
         <div className="flex justify-between items-start mb-4">
           <div>
-            <h1 className="text-2xl font-bold">{plan.title}</h1>
-            <p className="text-gray-600">{plan.description}</p>
+            <h1 className="text-2xl font-bold text-black">{plan.title}</h1>
+            <p className="text-gray-700">{plan.description}</p>
           </div>
           <div className="flex items-center space-x-4">
             <div className="flex items-center text-sm text-gray-600">
               <FiClock className="mr-1" />
               <span>{plan.duration}</span>
             </div>
-            <span className="px-2 py-1 text-xs font-medium rounded-md bg-gray-100">
+            <span className="px-2 py-1 text-xs font-bold rounded-md bg-yellow-200 border-2 border-black">
               {plan.difficulty}
             </span>
           </div>
@@ -132,7 +149,7 @@ export default function PlanDetailsPage() {
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {days.map((day) => (
-          <div key={day} className="bg-white border-2 border-black rounded-lg p-4">
+          <div key={day} className="bg-white border-2 border-black rounded-2xl p-4 shadow-brutal">
             <h2 className="text-lg font-semibold mb-3">{day}</h2>
             {plan.scheduledTasks[day]?.length ? (
               <ul className="space-y-2">
