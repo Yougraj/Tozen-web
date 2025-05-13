@@ -59,7 +59,7 @@ export default function WorkoutsPage() {
         setWorkoutsError('Failed to fetch workouts. Please try again later.');
         setWorkouts([]);
       }
-    } catch (error) {
+    } catch {
       setWorkoutsError('An unexpected error occurred while fetching workouts.');
       setWorkouts([]);
     } finally {
@@ -68,11 +68,7 @@ export default function WorkoutsPage() {
   };
 
 
-// Display error message if present
-  {workoutsError && (
-    <div className="error-message" style={{ color: 'red', marginBottom: '1em' }}>{workoutsError}</div>
-  )}
-// Fetch workouts when calendar range changes
+
 useEffect(() => {
   fetchWorkouts(calendarRange[0], calendarRange[1]);
 }, [calendarRange]);
