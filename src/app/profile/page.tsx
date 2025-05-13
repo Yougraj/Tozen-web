@@ -1,7 +1,6 @@
 "use client";
 import { useSession } from "next-auth/react";
 import { useState, useEffect } from "react";
-import Image from "next/image";
 import { useUser } from '@/context/UserContext';
 import DeleteConfirmModal from '@/components/DeleteConfirmModal';
 
@@ -146,7 +145,7 @@ export default function ProfilePage() {
                 key={img}
                 className={`relative border-2 rounded-md p-1 flex flex-col items-center ${user.selectedImage === img ? 'border-yellow-500 bg-yellow-100' : 'border-black bg-white'}`}
               >
-                <Image
+                <img
                   src={img}
                   alt={`Profile ${idx + 1}`}
                   width={64}
