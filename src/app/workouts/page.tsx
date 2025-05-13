@@ -26,7 +26,7 @@ function getMonthRange(date: Date): [Date, Date] {
 }
 
 export default function WorkoutsPage() {
-  const [workoutsError, setWorkoutsError] = useState<string | null>(null);
+
   const [tab, setTab] = useState<'calendar' | 'exercises'>('calendar');
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
   const [calendarRange, setCalendarRange] = useState<[Date, Date]>(getMonthRange(new Date()));
@@ -48,7 +48,6 @@ export default function WorkoutsPage() {
   const fetchWorkouts = async (startDate: Date, endDate: Date) => {
     try {
       setLoading(true);
-      setWorkoutsError(null);
       const start = startDate.toISOString().slice(0, 10);
       const end = endDate.toISOString().slice(0, 10);
       const res = await fetch(`/api/workouts?start=${start}&end=${end}`);
@@ -56,11 +55,9 @@ export default function WorkoutsPage() {
         const data = await res.json();
         setWorkouts(data);
       } else {
-        setWorkoutsError('Failed to fetch workouts. Please try again later.');
         setWorkouts([]);
       }
     } catch {
-      setWorkoutsError('An unexpected error occurred while fetching workouts.');
       setWorkouts([]);
     } finally {
       setLoading(false);
